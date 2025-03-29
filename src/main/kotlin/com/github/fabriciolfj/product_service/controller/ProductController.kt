@@ -20,12 +20,13 @@ import org.springframework.web.bind.annotation.RestController
 class ProductController(private val productService: ProductService) {
 
     @GetMapping("/{id}")
-    suspend fun findProduct(@PathVariable("id") id: Long) = productService.findProductById(id)
+    fun findProduct(@PathVariable("id") id: Long) =
+        runBlocking { productService.findProductById(id) }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    suspend fun createProduct(@RequestBody dto: ProductDTO) = productService.persist(dto.toEntity())
+    fun createProduct(@RequestBody dto: ProductDTO) = runBlocking {  productService.persist(dto.toEntity()) }
 
     @GetMapping
-    suspend fun getProducts() = productService.findAllProducts()
+    fun getProducts() = runBlocking {  productService.findAllProducts() }
 }

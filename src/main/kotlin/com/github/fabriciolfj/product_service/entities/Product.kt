@@ -1,20 +1,20 @@
 package com.github.fabriciolfj.product_service.entities
 
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Table
+import jakarta.persistence.*
 import java.math.BigDecimal
 
-@Table("products")
+@Entity
+@Table(name = "products")
 data class Product(
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-    @Column
+    @Column(nullable = false)
     val name: String,
 
-    @Column
+    @Column(nullable = false, precision = 10, scale = 2)
     val price: BigDecimal
 )

@@ -22,12 +22,12 @@ class ProductService(private val repository: ProductRepository) {
     @Transactional(readOnly = true)
     suspend fun findProductById(id: Long): Product {
         return withContext(Dispatchers.IO) {
-            repository.findById(id) ?: throw RuntimeException("Product with ID $id not found")
+            repository.findById(id).orElseThrow { throw RuntimeException("Product with ID $id not found") }
         }
     }
 
     @Transactional(readOnly = true)
-    suspend fun findAllProducts(): Flow<Product> {
+    suspend fun findAllProducts(): List<Product> {
         return withContext(Dispatchers.IO) {
             repository.findAll()
         }
